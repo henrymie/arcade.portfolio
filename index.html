@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gamscdn</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #282c34;
+            overflow: hidden;
+        }
+        .animated-text {
+            font-family: Arial, sans-serif;
+            font-size: 3em;
+            color: #61dafb;
+            font-weight: bold;
+            animation: bounce 2s infinite alternate ease-in-out,
+                       rotate 5s infinite linear,
+                       pulse 1.5s infinite alternate;
+        }
+        @keyframes bounce {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-50px); }
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="animated-text">Welcome to Our Page!</div>
+
+</body>
+</html>
