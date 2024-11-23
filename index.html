@@ -3,43 +3,1180 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>gamscdn</title>
+    <title>Project Go Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <style>
-        body {
+        * {
             margin: 0;
-            height: 100vh;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1a1a;
+            color: white;
+            min-height: 100vh;
+            font-family: 'Rubik', sans-serif;
+        }
+
+        nav {
+            background: #2d2d2d;
+            padding: 15px 30px;
             display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: 600;
+            color: #ff0000;
+            text-decoration: none;
+        }
+
+        .search-container {
+            max-width: 400px;
+            width: 100%;
+            margin: 0 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            background: #3d3d3d;
+            font-size: 16px;
+            color: white;
+        }
+
+        .search-input:focus {
+            outline: none;
+            background: #454545;
+            box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.3);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            background: #ff0000;
+        }
+
+        main {
+            margin-top: 80px;
+            padding: 20px;
+            max-width: 1800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 35px;
+            padding: 20px;
+        }
+
+        .game-card {
+            background: #2d2d2d;
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.2s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .game-icon {
+            width: 100%;
+            height: 75%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .game-info {
+            padding: 15px;
+            text-align: center;
+            background: #2d2d2d;
+            height: 25%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .game-title {
+            font-size: 18px;
+            color: white;
+            font-weight: 600;
+            margin-bottom: 4px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .game-category {
+            font-size: 14px;
+            color: #888;
+            font-style: italic;
+        }
+
+        .tos-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
             justify-content: center;
             align-items: center;
-            background-color: #282c34;
-            overflow: hidden;
         }
-        .animated-text {
-            font-family: Arial, sans-serif;
-            font-size: 3em;
-            color: #61dafb;
-            font-weight: bold;
-            animation: bounce 2s infinite alternate ease-in-out,
-                       rotate 5s infinite linear,
-                       pulse 1.5s infinite alternate;
+
+        .tos-popup {
+            background: #2d2d2d;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
         }
-        @keyframes bounce {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-50px); }
+
+        .tos-popup h2 {
+            color: #ff0000;
+            margin-bottom: 20px;
         }
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+
+        .tos-popup p {
+            margin-bottom: 20px;
+            line-height: 1.6;
         }
-        @keyframes pulse {
-            0% { opacity: 1; }
-            100% { opacity: 0.5; }
+
+        .tos-popup button {
+            background: #ff0000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background 0.3s ease;
+        }
+
+        .tos-popup button:hover {
+            background: #cc0000;
+        }
+
+        footer {
+            background: #2d2d2d;
+            padding: 30px;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .search-container {
+                margin: 10px 0;
+            }
+
+            .nav-links {
+                margin-top: 10px;
+            }
+
+            main {
+                margin-top: 140px;
+            }
+
+            .games-grid {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <nav>
+        <a href="#" class="logo">Project Go Hub</a>
+        <div class="search-container">
+            <input type="text" class="search-input" placeholder="Search games..." id="searchInput">
+        </div>
+        <div class="nav-links">
+            <a onclick="showAllGames()">Home</a>
+            <a onclick="showRandomGames()">Popular</a>
+        </div>
+    </nav>
 
-    <div class="animated-text">Welcome to Our Page!</div>
+    <div class="tos-overlay" id="tosOverlay">
+        <div class="tos-popup">
+            <h2>Terms of Service</h2>
+            <p>Welcome to Project Go Hub! By using our service, you agree to our Terms of Service.</p>
+            <button onclick="acceptTOS()">I Agree</button>
+        </div>
+    </div>
 
+    <main>
+        <div id="gamesContainer">
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Project Go Hub</p>
+    </footer>
+
+    <script>
+        const games = [
+    {
+        "title": "Only Up Ball",
+        "icon": "https://images.twoplayergames.org/files/games/g1/only-up-balls/only-up-balls.jpg",
+        "url": "/a/index.html",
+        "category": "Parkour"
+    },
+    {
+        "title": "Minecraft Parkour",
+        "icon": "https://i.ytimg.com/vi/2v0z3UNbVjs/hqdefault.jpg",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://s3.amazonaws.com/production-assetsbucket-8ljvyr1xczmb/9ecda005-11e9-4b52-ab9e-700b4d46d00f%2Fminep.xml&container=ig",
+        "category": "Parkour"
+    },
+    {
+        "title": "Stack Bounce",
+        "icon": "https://images.sftcdn.net/images/t_app-icon-m/p/686953f5-3c56-4c54-8294-a2ac86d06062/3840619291/stack-bounce-2024-logo",
+        "url": "https://stackbounce.h5games.usercontent.goog/v/1aqsvv0aegbjg/?origin=https%3A%2F%2Fgamesnacks.com&gameCenterId=yt&userActivityMetrics=true&eids=95340509&features=InterstitialFreqCap__freq_cap_60s%2CInterstitialFreqCap__block_pga_1m_interstitials%2CMonetization__populate_google_global_correlator%2CMonetization__use_ppabg_tag",
+        "category": "Strategy"
+    },
+    {
+        "title": "Johnny Trigger",
+        "icon": "https://play-lh.googleusercontent.com/pEH-pYG8v1WmNjk3haRt6bR4b6pUpvDsQLtVB-xsxt-SR9O6cX6OxnM0him5joRq8A",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/yrgen73/Jtrigger@3d4eb8d328bab8af057daa77acd4cee7608f1ec1/jt.xml&container=ig",
+        "category": "Shooter"
+    },
+    {
+        "title": "Basketball Legends",
+        "icon": "/basketballlegends.png",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/bobydob/JSEngine@5ebf5ebca88beaad3f3e9dcf461e25778c2a1a56/build/bl20/bl2020.xml&container=ig",
+        "category": "Strategy"
+    },
+    {
+        "title": "OvO",
+        "icon": "https://www.yoosfuhl.com/wp-content/uploads/2024/05/OvO-Game-YoosFuhl.jpg",
+        "url": "https://75jfh73gd9hla64g-opensocial.googleusercontent.com/gadgets/ifr?url=https://googleusercontent.b-cdn.net/ovo/ovo.xml&container=ig",
+        "category": "Strategy"
+    },
+    {
+        "title": "Snow Rider 3D",
+        "icon": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQynPGvHdj-dZZlnX3ZqLh7NTBB85b0FHWjBA&s",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/mind4ur/debugactions@6e97a528bfcdd0623e0cd99ad352baebf47a6b70/sr3d2.xml&container=ig",
+        "category": "Strategy"
+    },
+    {
+        "title": "Gun Spin",
+        "icon": "https://play-lh.googleusercontent.com/fLqvWSVq5rENEvu32xl0hf96wwSHVwQm-_9xc6KZg9Vgv9PbAtf1CyBYW7i1mlAXoSA",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/RobiFet/workflow@60b41ef8c9123ae41b86bf04c9b39e1a5713aaa9/bin/gs.xml&container=ig",
+        "category": "Shooter"
+    },
+    {
+        "title": "Time Shooter 2",
+        "icon": "/timeshooter2.jpg",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/classroom-google-new/google.net@main/ts2x.xml&container=ig",
+        "category": "Shooter"
+    },
+    {
+        "title": "Time Shooter 3",
+        "icon": "/time-shooter-3-swat.jpeg",
+        "url": "https://google-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/sk1bx/version@0d8fb9c7430567ed0900902593eee6ba2ba8d297/ts3.xml&container=ig",
+        "category": "Shooter"
+    },
+    {
+        "title": "Basket Random",
+        "icon": "https://play-lh.googleusercontent.com/gP8T5Z1O-ngxIloiwcBZzrzyLPYDp0R_1BDNKUDZboIRPVImeyWI8-7aExvB9gAGNKc",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/classroom-google-new/google.net@main/newgoogletrendd.xml&container=ig",
+        "category": "Strategy"
+    },
+    {
+        "title": "Rooftop Snipers",
+        "icon": "/rooftop-snipers.jpg",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/sk1bx/version@f8de953e5d955baef80e3994a1105d74ad76315b/Rooftop-Snipers.xml&container=ig",
+        "category": "Shooter"
+    },
+    {
+        "title": "Temple Run",
+        "icon": "/temple-run-2-2021-07-20.png",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/bessiegasbarro/Temp@8b49fbc206a1a207d613b8ca4d4f0b767159657d/tr.xml&container=ig",
+        "category": "Parkour"
+    },
+    {
+        "title": "Hole.io",
+        "icon": "/Hole-Io.jpg",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/gertdoro/Toolkit@93a27eabbbe5eb626af5b9b7dd0926ac16810a41/Code/Java/hole.xml&container=ig",
+        "category": "Strategy"
+    },
+    {
+        "title": "Snake",
+        "icon": "/slither.io-logo-m240x240.jpg",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://26515722-282596139816136697.preview.editmysite.com/uploads/b/7547235-562404422326578714/files/sis.xml&container=ig",
+        "category": "Strategy"
+    },
+    {
+        "title": "Getaway Shootout",
+        "icon": "/934bde36-a4a1-43d0-8b35-30f15feddbb4.jpg",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/sk1bx/version@e14f9d7fa2d076a4845a22c5b0e566f7cfd0ac4b/Getaway-Shootout.xml&container=ig",
+        "category": "Shooter"
+    },
+    {
+        "title": "Funny Shooter 2",
+        "icon": "/OIP.jpg",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/wergboy/Meteor@8f6f4282e1304fa03b4ea2cdb326184b11655a90/examples/react-in-blaze/fs2.xml&container=ig",
+        "category": "Shooter"
+    },
+    {
+        "title": "Helix Jump",
+        "icon": "/helixjump.jpg",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/classroom-google-new/google.net@main/h4643.xml&container=ig",
+        "category": "Strategy"
+    },
+    {
+        "title": "Vex 5",
+        "icon": "/vex5.jpg",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/bobydob/JSEngine@dae52f4583f3cc7612451ea7f02965aeff6077bf/build/v5/v5.xml&container=ig",
+        "category": "Strategy"
+    },
+    {
+        "title": "Stick Archers Battle",
+        "icon": "/stickarchersbattle.jpg",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://39574824-594760418439461653.preview.editmysite.com/uploads/b/139890129-634516224366849044/files/sab.xml&container=ig",
+        "category": "Strategy"
+    },
+    {
+        "title": "Cookie Clicker",
+        "icon": "https://images-na.ssl-images-amazon.com/images/I/71VSpLvjtaL.png",
+        "url": "https://google-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/bobydob/JSEngine@0d9afabd2522344a702e1b692ad58039f6290b0d/build/c-c/cc.xml&container=ig",
+        "category": "Strategy"
+    },
+    {
+        "title": "Epic Stunt Cars",
+        "icon": "/eb638126e29ebcde841d87cbf3af1b95.jpg",
+        "url": "/d/index.html",
+        "category": "Driving"
+    },
+    {
+        "title": "Tap Tap Shots",
+        "icon": "/c9f8l1mrsfel79479ngg.png",
+        "url": "/e/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "2048",
+        "icon": "/2048.jpg",
+        "url": "/2048/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Chrome Dino",
+        "icon": "/Chrome_Dino.webp",
+        "url": "/chrome-dino/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Doodle Jump",
+        "icon": "https://images-eu.ssl-images-amazon.com/images/I/51mrB6jG8pL.png",
+        "url": "/doodle-jump/index.html",
+        "category": "Parkour"
+    },
+    {
+        "title": "FNAF 4",
+        "icon": "/fnaf4.jpg",
+        "url": "/FNAF4/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Fruit Ninja",
+        "icon": "/fruitninja.jpg",
+        "url": "/fruitninja/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Geometry Dash",
+        "icon": "/Geometry_Dash_Artwork_1.jpg",
+        "url": "/geometry-dash/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Jetpack Joyride",
+        "icon": "/jetpackjoyride.jpg",
+        "url": "/jetpack-joyride/index.html",
+        "category": "Parkour"
+    },
+    {
+        "title": "Minecraft",
+        "icon": "/minecraft-1024x1024.jpg",
+        "url": "/minecraft-18/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Moto X3M",
+        "icon": "/moto-x3m.jpg",
+        "url": "/Moto-X3M/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Paper IO 2",
+        "icon": "/paperio2.jpg",
+        "url": "/paperio2/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Slope",
+        "icon": "/slope.jpg",
+        "url": "/slope/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Slope 2",
+        "icon": "/slope2.webp",
+        "url": "/slope-2/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Soundboard",
+        "icon": "https://i.ibb.co/pXRs8Kn/button-pressed.webp",
+        "url": "/soundboard/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Stack",
+        "icon": "/stack.jpg",
+        "url": "/stack/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Stickman Hook",
+        "icon": "/stickmanhook.jpg",
+        "url": "/stickman-hook/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Subway Surfers",
+        "icon": "/subwaysurfers.jpg",
+        "url": "/subwaysurfers-sf/index.html",
+        "category": "Parkour"
+    },
+    {
+        "title": "Temple Run 2",
+        "icon": "/templerun2.png",
+        "url": "/temple-run-2/index.html",
+        "category": "Parkour"
+    },
+    {
+        "title": "Crossy Road",
+        "icon": "/crossyroad.jpg",
+        "url": "/crossyroad/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Cut The Rope",
+        "icon": "/cuttherope.webp",
+        "url": "/cuttherope-Timetravel/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "BitLife",
+        "icon": "/bitlife.jpg",
+        "url": "/bitlife/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Bottle Flip 3D",
+        "icon": "/bottle-flip-3d-game-icon.jpg",
+        "url": "/bottle-flip-3d/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Ball Hop",
+        "icon": "https://play-lh.googleusercontent.com/hZzqGtfWTqIdrOCB1nklmYHyMVN24ILeAYvINHQj0KBlCZ6lM139lPVvHVhI2OuMXEE",
+        "url": "/Ball-Hop/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Backrooms",
+        "icon": "/35j5d80.png",
+        "url": "/backrooms/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Angry Birds",
+        "icon": "/156667861687778904.png",
+        "url": "/angrybirds/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Rocket League",
+        "icon": "/rocketleague.jpg",
+        "url": "/Rocket-League/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Tactical Assasin 2",
+        "icon": "/tacassasin2.jpg",
+        "url": "/tacticalassasin2/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Space Waves",
+        "icon": "/space-waves_16x9-cover.jpg",
+        "url": "https://crazygames.cdn.start.gg/9nm5764dbppg/v3/index.html?msstart_sdk_init=eyJwYXJlbnRPcmlnaW4iOiJodHRwczovL3d3dy5tc24uY29tIiwiY2xpZW50SWQiOiIwRjAzREI4OEYwQ0Y2MUM0MENFQUNFQUFGMTU2NjBEMyIsImxvY2FsZSI6ImVuLXVzIiwiZW50cnlQb2ludElkIjoiIn0",
+        "category": "Parkour"
+    },
+    {
+        "title": "Shoot The Bottle",
+        "icon": "https://play-lh.googleusercontent.com/fwaR2z3XQqIiC1qzI6nfhTPq22WJukwgwddXducFF7rgGXmiY4vPb_P3un0b3KePdg",
+        "url": "https://marketjs.cdn.start.gg/9pb62x276fpp/v4/index.html?msstart_sdk_init=eyJwYXJlbnRPcmlnaW4iOiJodHRwczovL3d3dy5tc24uY29tIiwiY2xpZW50SWQiOiIwRjAzREI4OEYwQ0Y2MUM0MENFQUNFQUFGMTU2NjBEMyIsImxvY2FsZSI6ImVuLXVzIiwiZW50cnlQb2ludElkIjoiIn0",
+        "category": "Shooter"
+    },
+    {
+        "title": "Wild Hunting Clash",
+        "icon": "/wildhuntingclash.jpg",
+        "url": "https://inlogic.cdn.start.gg/9n292xr2128r/v3/index.html?msstart_sdk_init=eyJwYXJlbnRPcmlnaW4iOiJodHRwczovL3d3dy5tc24uY29tIiwiY2xpZW50SWQiOiIwRjAzREI4OEYwQ0Y2MUM0MENFQUNFQUFGMTU2NjBEMyIsImxvY2FsZSI6ImVuLXVzIiwiZW50cnlQb2ludElkIjoiIn0",
+        "category": "Shooter"
+    },
+    {
+        "title": "Ball Drop",
+        "icon": "https://thaka.bing.com/th?id=OCGE.9n5cr504q14r_v6_main_webp&w=124&h=124&qlt=80&c=0&rs=1",
+        "url": "https://marketjs.cdn.start.gg/9n5cr504q14r/v6/index.html?msstart_sdk_init=eyJwYXJlbnRPcmlnaW4iOiJodHRwczovL3d3dy5tc24uY29tIiwiY2xpZW50SWQiOiIwRjAzREI4OEYwQ0Y2MUM0MENFQUNFQUFGMTU2NjBEMyIsImxvY2FsZSI6ImVuLXVzIiwiZW50cnlQb2ludElkIjoiIn0",
+        "category": "Parkour"
+    },
+    {
+        "title": "Color Sort Puzzle",
+        "icon": "https://thaka.bing.com/th?id=OCGE.9nk7ht6xf3hm_v3_main_webp&w=124&h=124&qlt=80&c=0&rs=1",
+        "url": "https://inlogic.cdn.start.gg/9nk7ht6xf3hm/v1/index.html?msstart_sdk_init=eyJwYXJlbnRPcmlnaW4iOiJodHRwczovL3d3dy5tc24uY29tIiwiY2xpZW50SWQiOiIwRjAzREI4OEYwQ0Y2MUM0MENFQUNFQUFGMTU2NjBEMyIsImxvY2FsZSI6ImVuLXVzIiwiZW50cnlQb2ludElkIjoiIn0",
+        "category": "Strategy"
+    },
+    {
+        "title": "Cubes 2048",
+        "icon": "https://thaka.bing.com/th?id=OCGE.9mvd9sprhm6x_v5_main_webp&w=124&h=124&qlt=80&c=0&rs=1",
+        "url": "https://crazygames.cdn.start.gg/9mvd9sprhm6x/v67/index.html?msstart_sdk_init=eyJwYXJlbnRPcmlnaW4iOiJodHRwczovL3d3dy5tc24uY29tIiwiY2xpZW50SWQiOiIwRjAzREI4OEYwQ0Y2MUM0MENFQUNFQUFGMTU2NjBEMyIsImxvY2FsZSI6ImVuLXVzIiwiZW50cnlQb2ludElkIjoiIn0",
+        "category": "Strategy"
+    },
+    {
+        "title": "Snowdown Showdown",
+        "icon": "https://educate.stemfuse.com/sites/default/files/styles/arcade_game_listing/public/mainimage/images/start_screen.png?itok=qMOA0uxC",
+        "url": "https://educate.stemfuse.com/sf-serve/76/snowdown_showdown/index.html?class_id=&course_id=&active=",
+        "category": "Parkour"
+    },
+    {
+        "title": "Elastic Man",
+        "icon": "/elastic-man-logo.png",
+        "url": "https://d21u3ic0kp9e91.cloudfront.net/elasticman/0/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Google Feud",
+        "icon": "https://i.ytimg.com/vi/RnEReMXCD_I/maxresdefault.jpg",
+        "url": "/google-feud/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Among Us",
+        "icon": "https://seeklogo.com/images/A/among-us-logo-315EB5A5DA-seeklogo.com.png",
+        "url": "/among-us/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Lemonade Stand",
+        "icon": "/lemonade-stand-game-icon.png",
+        "url": "/lemonadestand.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Candy Crush Saga",
+        "icon": "https://play-lh.googleusercontent.com/TLUeelx8wcpEzf3hoqeLxPs3ai1tdGtAZTIFkNqy3gbDp1NPpNFTOzSFJDvZ9narFS0",
+        "url": "/candycrushsaga.htmll",
+        "category": "Strategy"
+    },
+    {
+        "title": "Agar IO Lite",
+        "icon": "https://upload.wikimedia.org/wikipedia/commons/d/d7/Agar.io_Logo.png",
+        "url": "/agario.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Google Snake",
+        "icon": "/googlesnake.jpg",
+        "url": "/googlesnake.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Super Mario Run",
+        "icon": "https://play-lh.googleusercontent.com/5LIMaa7WTNy34bzdFhBETa2MRj7mFJZWb8gCn_uyxQkUvFx_uOFCeQjcK16c6WpBA3E=w600-h300-pc0xffffff-pd",
+        "url": "/supermariorun.html",
+        "category": "Parkour"
+    },
+    {
+        "title": "Tomb Of The Mask",
+        "icon": "https://play-lh.googleusercontent.com/ATGr-U4JBK2VjFzKGK9eMMkrDxJaazadOUoz_7Yl0U5NrWSFcFUzEtNurWXYzVWc8uOO",
+        "url": "https://gg-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/sk1bx/element@9cccb2fafb569c963501a5d818472b561121cea6/totm.xml&container=ig",
+        "category": "Strategy"
+    },
+    {
+        "title": "Snowball.io",
+        "icon": "https://play-lh.googleusercontent.com/X8FEOENa_t5mlRllBh2RRLc6sMnPIq56Wxa2ndValDOmwzIRhAv7MG6fT97TLQ2DK48",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/gertdoro/SQLite4Unity3d@8516fc0bd1d2be662ca484f5dc506268b24763ef/Example/Assets/snowball.xml&container=ig",
+        "category": "Parkour"
+    },
+    {
+        "title": "Draw Climber",
+        "icon": "https://play-lh.googleusercontent.com/70T7qV9LvT2RyB7WtE2Z88I6oZfS6Gq9Wd6mTUbFweoLUHkEjduBsc2rprDuxfa7lw",
+        "url": "https://images-opensocial.googleusercontent.com/gadgets/ifr?url=https://cdn.jsdelivr.net/gh/yrgen73/draw-cl@0ec89d036cadec1dff60df9722a7da2e708da301/dc.xml&container=ig",
+        "category": "Parkour"
+    },
+    {
+        "title": "Watermelon Game",
+        "icon": "https://play-lh.googleusercontent.com/oY8TZ2jmU_ECyDYFrrT3q6LZySrylyEBHDLOpsZEETDLpWAUus4ucnmCDetDjovoHA",
+        "url": "/watermelongame.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Cooking Frenzy",
+        "icon": "https://play-lh.googleusercontent.com/WelzBPzTzrQk6eOgFsuWuhpq6wXcb1f5PYfHsMesIMrsnuaSsLv3IzNUwuyZxYSlpd0=w526-h296-rw",
+        "url": "/cookingfrenzy.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "UNO",
+        "icon": "https://play-lh.googleusercontent.com/-dkLgwYiDOWhrSwRGRGXsu_-VmU13lC_SWbsv08GtgaNrOfanJHaBF3g7b5Zww23LbxR",
+        "url": "/uno.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Retro Bowl",
+        "icon": "https://play-lh.googleusercontent.com/WRM5Y1xZmzcCP1YtO5zl6G2g7CU5c5ZfjX4UVrgi1bpNgkfy-wuB-bQx3kkeRfaGYQ",
+        "url": "/retrobowl.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Make Sure It's Closed",
+        "icon": "https://kbhgames.com/wp-content/uploads/2019/04/Make-sure-it%E2%80%99s-closed.jpg",
+        "url": "/closed/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Drive Mad",
+        "icon": "https://play-lh.googleusercontent.com/zGApa4C91zfSXuPMVHvBzzgVLhs_ABHv9fybDQ2m86QmArR3sejpOoRjBMq4ZNZrhg",
+        "url": "/drivemad/index.html",
+        "category": "Driving"
+    },
+    {
+        "title": "CS:GO Clicker",
+        "icon": "https://play-lh.googleusercontent.com/hpwkNsCWYSmFfwhiM0sBHSRveYvI4vSl0yg8g4sin5QhxjrpDsLOyhB3p2eXbRqrPgc",
+        "url": "/csgoclicker/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Stack Ball",
+        "icon": "https://play-lh.googleusercontent.com/3pf26YI4SRN_Uk72hQeHJHbv57xOKOVEThflyjzoM6OegOxEolE8lGCImYz7DC9bv4w",
+        "url": "/stackball/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Mr Bullet",
+        "icon": "https://play-lh.googleusercontent.com/qEnwkwPN4w5wiCC8ol8xTdyI-EAVXVHnPmD2u0qsZgL0enlBxgyyuGlL69mycqBWNac",
+        "url": "/mr-bullet/index.html",
+        "category": "Shooter"
+    },
+    {
+        "title": "Masked Special Forces",
+        "icon": "https://play-lh.googleusercontent.com/cxBVtZhkB_AsojHGW8q-ZaK6zC-_80jaQwXj2peCokpL_KXTXI9aCuJ4anZzv5FyVgE",
+        "url": "/maskedspecialforces/index.html",
+        "category": "Shooter"
+    },
+    {
+        "title": "Clicker Heroes",
+        "icon": "https://play-lh.googleusercontent.com/XqysWlDWj5nBr0zZMtB08Bt4pe3MsE8XXOAgqZYiD1s65phAUWUcLIBLxdiAkfjfIsM",
+        "url": "/clicker-heroes/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Territorial",
+        "icon": "/territorial.jpg",
+        "url": "/territorial.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Minecraft Singleplayer",
+        "icon": "https://play-lh.googleusercontent.com/27O5tpaYE82W6m30rJ_MX3-UvshlDM6O8oXDxb6GseYW2T7P8UNT19727MGmz-0q3w",
+        "url": "/minecraft-15/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Vex 7",
+        "icon": "/vex7.png",
+        "url": "/vex7/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Tetris",
+        "icon": "/tetris.jpg",
+        "url": "/tetris.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Smash Karts",
+        "icon": "https://play-lh.googleusercontent.com/cM1CXOuBIy0kjGfoCTOKNa812iuVX6X2DDop8xNH4mNyjuM-oj3wVqZ7wiAOizq_TA",
+        "url": "/smashkarts/index.html",
+        "category": "Driving"
+    },
+    {
+        "title": "Flappy Bird",
+        "icon": "https://upload.wikimedia.org/wikipedia/en/0/0a/Flappy_Bird_icon.png",
+        "url": "/flappy-bird/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Super Hot",
+        "icon": "/superhot/hot.jpg",
+        "url": "/superhot/index.html",
+        "category": "Shooter"
+    },
+    {
+        "title": "You Are Bezos",
+        "icon": "/bezos/img/icon.png",
+        "url": "/bezos/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Super Mario 64",
+        "icon": "/sm64/logo.png",
+        "url": "/sm64/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Scrap Metal 3",
+        "icon": "/scrapmetal/img/splash.png",
+        "url": "/scrapmetal/index.html",
+        "category": "Driving"
+    },
+    {
+        "title": "Cluster Rush",
+        "icon": "/cluster-rush/icon.jpg",
+        "url": "/cluster-rush/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Classi Cube",
+        "icon": "/classicube.png",
+        "url": "/classicube/index36fc.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Chrome Dino",
+        "icon": "/chrome-dino/favicon.ico",
+        "url": "/chrome-dino/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Deal Or No Deal",
+        "icon": "/deal-or-no-deal/index.jpg",
+        "url": "/deal-or-no-deal/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Glass City",
+        "icon": "/glass-city/icon.png",
+        "url": "/glass-city/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Eel Slap",
+        "icon": "/eel-slap/eel-slap.png",
+        "url": "/eel-slap/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Duck Life 4",
+        "icon": "/ducklife4/splash.jpg",
+        "url": "/ducklife4/index.html",
+        "category": "Parkour"
+    },
+    {
+        "title": "Draw The Hill",
+        "icon": "https://play-lh.googleusercontent.com/XpsIy0kOyX1ux1Mse55ZmQEmtI-_l8CuNeg8pMEjiIO3sf7HYAv-ropYF-Ce8v8MgE8",
+        "url": "/draw-the-hill/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Bacon May Die",
+        "icon": "https://play-lh.googleusercontent.com/W_dghckKR-MD8Hx5YvCpdx3bYNeqrBdZqnMI02JnP5rVH8VqGaQUzdiMXd2wdJGLeP0",
+        "url": "/bacon-may-die/index.html",
+        "category": "Shooter"
+    },
+    {
+        "title": "Aquapark Slides",
+        "icon": "/aquapark-slides/splash.png",
+        "url": "/aquapark-slides/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "1v1.lol",
+        "icon": "/1v1lol/splash.png",
+        "url": "/1v1lol/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Cars Simulator",
+        "icon": "/cars-simulator/splash.png",
+        "url": "/cars-simulator/index.html",
+        "category": "Driving"
+    },
+    {
+        "title": "G Switch 3",
+        "icon": "/gswitch-3/logo.jpg",
+        "url": "/gswitch-3/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "N-Gon",
+        "icon": "/n-gon/bot.png",
+        "url": "/n-gon/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Plants Vs Zombies",
+        "icon": "https://play-lh.googleusercontent.com/hO7716hh7NCcFauJedDclX-R3Zh9JmbSs8AUU6TP2edGVILlZM7gmyt_8WPCZELiPQA",
+        "url": "/plantsvszombies/plants vs zombies.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Rise Higher",
+        "icon": "/vign-rise-higher-hk-eyc_424.jpg",
+        "url": "/risehigher/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Stickman Survival",
+        "icon": "/Stickman-Survival/Icon.png",
+        "url": "/Stickman-Survival/index.html",
+        "category": "Shooter"
+    },
+    {
+        "title": "Wordle",
+        "icon": "/wordle/img/logo_192x192.png",
+        "url": "/wordle/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "osu!",
+        "icon": "https://play-lh.googleusercontent.com/hcdEgtx4SM_0CjrLkpfFuiN5opTyCS2DR3FuSynZX83UOrqy0qUVk9WturEWFXYRkHM",
+        "url": "osu.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Geometry Dash Lite",
+        "icon": "https://play-lh.googleusercontent.com/p7kWbWBFxQIrzolEqiV5uSvctLeyssZvBV7UBOX29wzZI52IdcSs4qCB_zsQJL1mt9A",
+        "url": "/geometrydash/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Tunnel Rush",
+        "icon": "/tunnel-rush/img/tunnel.jpg",
+        "url": "/tunnel-rush/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Getting Over It",
+        "icon": "/getting-over-it/thumb.jpg",
+        "url": "/getting-over-it/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Adventure Drivers",
+        "icon": "/adventure-drivers/splash.png",
+        "url": "/adventure-drivers/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Ballistic",
+        "icon": "/ballistic.jpg",
+        "url": "/ballistic/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Hop Pop It",
+        "icon": "/hop-pop-it/logo.jpg",
+        "url": "/hop-pop-it/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "New Super Mario Bros",
+        "icon": "/mario-bros/NewSuperMarioBros.png",
+        "url": "/mario-bros/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Super Mario",
+        "icon": "/mario/icon.jpg",
+        "url": "/mario/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Skibidi Strike",
+        "icon": "/skibidi-strike/logo.jpg",
+        "url": "/skibidi-strike/index.html",
+        "category": "Shooter"
+    },
+    {
+        "title": "OvO 2",
+        "icon": "/ovo-2/logo.jpg",
+        "url": "/ovo-2/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Popcat",
+        "icon": "/popcat/splash.png",
+        "url": "/popcat/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Papery Planes",
+        "icon": "/papery-planes/thumb.png",
+        "url": "/papery-planes/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Pacman",
+        "icon": "/pacman/logo.png",
+        "url": "/pacman/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Paper Minecraft",
+        "icon": "/paper-minecraft/PaperMinecraft.png",
+        "url": "/paper-minecraft/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Minecraft Case",
+        "icon": "/minecraft-case/logo.jpg",
+        "url": "/minecraft-case/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Nut Simulator",
+        "icon": "/nut-simulator/NutSimulator.png",
+        "url": "/nut-simulator/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Bottle Flip",
+        "icon": "https://play-lh.googleusercontent.com/nZ7BZOMkET6KGfS-XI0zqtR6XH0xx149azbntONK_SVESzbfIclQ9fy2GgIAu2LhoR4",
+        "url": "/bottle-flip/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Paper IO 3",
+        "icon": "https://play-lh.googleusercontent.com/Lyr9F4rWmbC3--lgyJi2KKY24lTAbKISBdzAi31QB-jbB_H4e_nCZOIM9xG3_QY71uuU",
+        "url": "/paperio3.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Sniper Shot",
+        "icon": "/sniper-shot/logo.jpg",
+        "url": "/sniper-shot/index.html",
+        "category": "Shooter"
+    },
+    {
+        "title": "Minesweeper",
+        "icon": "/minesweeper/cover.png",
+        "url": "/minesweeper/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Yohoho.io",
+        "icon": "/yohoho/cover.png",
+        "url": "/yohoho/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Papa's Scooperia",
+        "icon": "/papasscooperia/papasscooperia.png",
+        "url": "/papasscooperia/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Space Company",
+        "icon": "/space-company/SpaceCompanyFavicon.png",
+        "url": "/space-company/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Fake Virus",
+        "icon": "/fake-virus/icon.png",
+        "url": "/fake-virus/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Soccer Heads",
+        "icon": "/soccer-heads/logo.jpg",
+        "url": "/soccer-heads/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Football Legends",
+        "icon": "/football-legends/logo.jpg",
+        "url": "/football-legends/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "Football Strike",
+        "icon": "/football-strike/logo.jpg",
+        "url": "/football-strike/index.html",
+        "category": "Strategy"
+    },
+    {
+        "title": "The Impossible Quiz",
+        "icon": "/impossiblequiz/impossiblequiz.png",
+        "url": "/impossiblequiz/index.html",
+        "category": "Strategy"
+    },
+        {
+        "title": "Edge Surf",
+        "icon": "/edge-surf/splash.png",
+        "url": "/edge-surf/index.html",
+        "category": "Strategy"
+    },
+        {
+        "title": "Drift Boss",
+        "icon": "/drift-boss/drift-boss.png",
+        "url": "/drift-boss/index.html",
+        "category": "Driving"
+    },
+       {
+        "title": "Crazy Cars",
+        "icon": "/crazy-cars/logo.jpg",
+        "url": "/crazy-cars/index.html",
+        "category": "Driving"
+    },  
+       {
+        "title": "Eggy Car",
+        "icon": "/eggy-car/logo.jpg",
+        "url": "/eggy-car/index.html",
+        "category": "Driving"
+    },   
+       {
+        "title": "Stack Bump 3D",
+        "icon": "/stack-bump-3d/logo.jpg",
+        "url": "/stack-bump-3d/index.html",
+        "category": "Strategy"
+    }    
+]
+
+        if (!localStorage.getItem('tosAccepted')) {
+            document.getElementById('tosOverlay').style.display = 'flex';
+        }
+
+        function acceptTOS() {
+            localStorage.setItem('tosAccepted', 'true');
+            document.getElementById('tosOverlay').style.display = 'none';
+        }
+
+        function showGame(url) {
+            const encodedUrl = encodeURIComponent(url).replace(/%2F/g, '/');
+            
+            document.body.innerHTML = `
+                <div style="position:fixed; top:0; left:0; bottom:0; right:0; width:100%; height:100%; margin:0; padding:0; overflow:hidden;">
+                    <iframe src="/iframe.html?url=${encodedUrl}" 
+                            style="width:100%; height:100%; border:none; margin:0; padding:0; overflow:hidden;" 
+                            allowfullscreen>
+                    </iframe>
+                    <div id="gameControls" style="position:fixed; bottom:10px; left:10px; background-color:rgba(29,29,29,0.753); border-radius:15px; padding:5px; z-index:999999;">
+                        <span class="material-icons" style="color:rgb(224,224,224); margin:5px; cursor:pointer;" onclick="location.reload()">arrow_back</span>
+                        <span class="material-icons" style="color:rgb(224,224,224); margin:5px; cursor:pointer;" onclick="document.documentElement.requestFullscreen()">fullscreen</span>
+                    </div>
+                    <style>
+                        :fullscreen #gameControls {
+                            display: none;
+                        }
+                        :-webkit-full-screen #gameControls {
+                            display: none;
+                        }
+                        :-moz-full-screen #gameControls {
+                            display: none;
+                        }
+                    </style>
+                </div>`;
+        }
+
+        function renderGames(filteredGames = games) {
+            const container = document.getElementById('gamesContainer');
+            
+            if (filteredGames.length === 0) {
+                container.innerHTML = '<div class="games-grid"><p>No games found</p></div>';
+                return;
+            }
+
+            const html = `
+                <div class="games-grid">
+                    ${filteredGames.map(game => `
+                        <div class="game-card" onclick="showGame('${game.url}')">
+                            <div class="game-icon" style="background-image: url('${game.icon}')"></div>
+                            <div class="game-info">
+                                <div class="game-title">${game.title}</div>
+                                <div class="game-category">${game.category || 'Uncategorized'}</div>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+            container.innerHTML = html;
+        }
+
+        function showAllGames() {
+            renderGames(games);
+        }
+
+        function showRandomGames() {
+            const shuffled = [...games].sort(() => 0.5 - Math.random());
+            renderGames(shuffled.slice(0, 12));
+        }
+
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredGames = games.filter(game => 
+                game.title.toLowerCase().includes(searchTerm)
+            );
+            renderGames(filteredGames);
+        });
+
+        showAllGames();
+    </script>
 </body>
 </html>
